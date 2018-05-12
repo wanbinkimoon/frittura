@@ -1,10 +1,29 @@
-color bgC       = #2F2F2F;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class build extends PApplet {
+
+int bgC       = 0xff2F2F2F;
 String dataPATH = "../../data/";
 
 // ================================================================
 
-import ddf.minim.*;
-import ddf.minim.analysis.*;
+
+
 
 // ================================================================
 
@@ -14,21 +33,21 @@ FFT audioFFT;
 
 // ================================================================
 
-int audioRange 	= 100;
+int audioRange 	= 128;
 int audioMax = 100;
 
-float audioAmp = 25.0;
-float audioIndex = 0.05;
+float audioAmp = 30.0f;
+float audioIndex = 0.0f;
 float audioIndexAmp = audioIndex;
-float audioIndexStep = 0.025;
+float audioIndexStep = 0.25f;
 
-int rectS 			= 5;
+int rectS 			= 4;
 
 // ================================================================
 
 int stageM			= 100;
-int stageW      = (audioRange * rectS) + (stageM*2);
-int stageH      = 300;
+int stageW      = (audioRange * rectS) + (stageM * 2);
+int stageH      = 700;
 
 // ================================================================
 
@@ -40,19 +59,19 @@ int xSpace			= rectS;
 
 // ================================================================
 
-void settings(){ 
+public void settings(){ 
 	size(stageW, stageH);
 }
 
 // ================================================================
 
-void setup() {
+public void setup() {
 	background(bgC);
 
 	minim = new Minim(this);
 	audio = minim.loadFile( dataPATH + "beat_3.wav");
-	audio.loop();
-	// audio.play();
+	// audio.loop();
+	audio.play();
 
 	audioFFT = new FFT(audio.bufferSize(), audio.sampleRate());
 	audioFFT.linAverages(audioRange);
@@ -61,8 +80,8 @@ void setup() {
 }	
 
 // ================================================================
-void draw() {
-	background(bgC);
+public void draw() {
+	// background(bgC);
 
 	// stroke(#0066AA); noFill();
 	// line(0, stageM, width, stageM);
@@ -73,23 +92,23 @@ void draw() {
 
 	for (int i = 0; i < audioRange; ++i) {
 		float indexAvg = (audioFFT.getAvg(i) * audioAmp) * audioIndexAmp;
-		float indexCon = constrain(indexAvg, 0, audioMax);
+		// float indexCon = constrain(indexAvg, 0, audioMax);
 
-		stroke(0); fill(255);
-		rect(xStart + (i * xSpace), yStart, rectS, indexCon);
+		stroke(0); fill(255, 5);
+		rect(xStart + (i * xSpace), yStart, rectS, indexAvg);
 
 		audioIndexAmp += audioIndexStep;			
 	}
 
 	audioIndexAmp = audioIndex;
 
-	stroke(#DD6600); noFill();
+	stroke(0xffDD6600); noFill();
 	line(0, stageM + 100, width, stageM + 100);
 }
 
 // ================================================================
 
-void stop() {
+public void stop() {
 	audio.close();
 	minim.stop();
 	super.stop();
@@ -97,3 +116,12 @@ void stop() {
 
 // ================================================================
 
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "build" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}

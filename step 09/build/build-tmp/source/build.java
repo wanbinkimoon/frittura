@@ -33,21 +33,21 @@ FFT audioFFT;
 
 // ================================================================
 
-int audioRange 	= 100;
+int audioRange 	= 128;
 int audioMax = 100;
 
-float audioAmp = 25.0f;
-float audioIndex = 0.05f;
+float audioAmp = 30.0f;
+float audioIndex = 0.0f;
 float audioIndexAmp = audioIndex;
-float audioIndexStep = 0.025f;
+float audioIndexStep = 0.25f;
 
-int rectS 			= 5;
+int rectS 			= 4;
 
 // ================================================================
 
 int stageM			= 100;
-int stageW      = (audioRange * rectS) + (stageM*2);
-int stageH      = 300;
+int stageW      = (audioRange * rectS) + (stageM * 2);
+int stageH      = 700;
 
 // ================================================================
 
@@ -70,8 +70,8 @@ public void setup() {
 
 	minim = new Minim(this);
 	audio = minim.loadFile( dataPATH + "beat_3.wav");
-	audio.loop();
-	// audio.play();
+	// audio.loop();
+	audio.play();
 
 	audioFFT = new FFT(audio.bufferSize(), audio.sampleRate());
 	audioFFT.linAverages(audioRange);
@@ -81,7 +81,7 @@ public void setup() {
 
 // ================================================================
 public void draw() {
-	background(bgC);
+	// background(bgC);
 
 	// stroke(#0066AA); noFill();
 	// line(0, stageM, width, stageM);
@@ -92,10 +92,10 @@ public void draw() {
 
 	for (int i = 0; i < audioRange; ++i) {
 		float indexAvg = (audioFFT.getAvg(i) * audioAmp) * audioIndexAmp;
-		float indexCon = constrain(indexAvg, 0, audioMax);
+		// float indexCon = constrain(indexAvg, 0, audioMax);
 
-		stroke(0); fill(255);
-		rect(xStart + (i * xSpace), yStart, rectS, indexCon);
+		stroke(0); fill(255, 5);
+		rect(xStart + (i * xSpace), yStart, rectS, indexAvg);
 
 		audioIndexAmp += audioIndexStep;			
 	}
