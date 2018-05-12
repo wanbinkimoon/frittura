@@ -3,6 +3,9 @@ import processing.data.*;
 import processing.event.*; 
 import processing.opengl.*; 
 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+
 import java.util.HashMap; 
 import java.util.ArrayList; 
 import java.io.File; 
@@ -15,7 +18,18 @@ import java.io.IOException;
 public class build extends PApplet {
 
 int bgC       = 0xff2F2F2F;
-String dataPATH = "../../data";
+String dataPATH = "../../data/";
+
+// ================================================================
+
+
+
+
+// ================================================================
+
+Minim minim;
+AudioPlayer audio;
+FFT audioFFT;
 
 // ================================================================
 
@@ -29,6 +43,14 @@ int stageH      = 300;
 
 // ================================================================
 
+int rectS 			= 2;
+
+int xStart 			= stageM;
+int yStart 			= stageM;
+int xSpace			= rectS;
+
+// ================================================================
+
 public void settings(){ 
 	size(stageW, stageH);
 }
@@ -37,20 +59,44 @@ public void settings(){
 
 public void setup() {
 	background(bgC);
-}
+
+	minim = new Minim(this);
+	audio = minim.loadFile( dataPATH + "sorry_dave.wav");
+	audio.loop();
+
+	audioFFT = new FFT(audio.bufferSize(), audio.sampleRate());
+	audioFFT.linAverages(audioRange);
+
+}	
 
 // ================================================================
 public void draw() {
 	background(bgC);
 
-	stroke(0xff0066AA); noFill();
-	line(0, stageM, width, stageM);
-	line(stageM, 0, stageM, height);
-	line(width - stageM, 0, width - stageM, height);
+	// stroke(#0066AA); noFill();
+	// line(0, stageM, width, stageM);
+	// line(stageM, 0, stageM, height);
+	// line(width - stageM, 0, width - stageM, height);
 	
 	stroke(0xffDD6600); noFill();
 	line(0, stageM + 100, width, stageM + 100);
+
+	for (int i = 0; i < audioRange; ++i) {
+		stroke(0); fill(255);
+		rect(xStart + (i * xSpace), yStart, rectS, rectS);
+	}
 }
+
+// ================================================================
+
+public void stop() {
+	audio.close();
+	minim.stop();
+	super.stop();
+}
+
+// ================================================================
+
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "build" };
     if (passedArgs != null) {
