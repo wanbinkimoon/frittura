@@ -1,29 +1,10 @@
-import processing.core.*; 
-import processing.data.*; 
-import processing.event.*; 
-import processing.opengl.*; 
-
-import ddf.minim.*; 
-import ddf.minim.analysis.*; 
-
-import java.util.HashMap; 
-import java.util.ArrayList; 
-import java.io.File; 
-import java.io.BufferedReader; 
-import java.io.PrintWriter; 
-import java.io.InputStream; 
-import java.io.OutputStream; 
-import java.io.IOException; 
-
-public class build extends PApplet {
-
-int bgC       = 0xff2F2F2F;
+color bgC       = #2F2F2F;
 String dataPATH = "../../data/";
 
 // ================================================================
 
-
-
+import ddf.minim.*;
+import ddf.minim.analysis.*;
 
 // ================================================================
 
@@ -33,15 +14,15 @@ FFT audioFFT;
 
 // ================================================================
 
-int audioRange 	= 25;
+int audioRange 	= 10;
 int audioMax = 100;
 
-float audioAmp = 120.0f;
-float audioIndex = 0.0f;
+float audioAmp = 240.0;
+float audioIndex = 0.035;
 float audioIndexAmp = audioIndex;
-float audioIndexStep = 0.25f;
+float audioIndexStep = 0.25;
 
-int rectS 			= 20;
+int rectS 			= 50;
 
 // ================================================================
 
@@ -59,13 +40,13 @@ int xSpace			= rectS;
 
 // ================================================================
 
-public void settings(){ 
+void settings(){ 
 	size(stageW, stageH);
 }
 
 // ================================================================
 
-public void setup() {
+void setup() {
 	background(bgC);
 
 	minim = new Minim(this);
@@ -80,7 +61,7 @@ public void setup() {
 }	
 
 // ================================================================
-public void draw() {
+void draw() {
 	// background(bgC);
 
 	// stroke(#0066FF); noFill();
@@ -102,13 +83,13 @@ public void draw() {
 
 	audioIndexAmp = audioIndex;
 
-	stroke(0xffDD6600); noFill();
+	stroke(#DD6600); noFill();
 	line(0, stageM + 100, width, stageM + 100);
 }
 
 // ================================================================
 
-public void stop() {
+void stop() {
 	audio.close();
 	minim.stop();
 	super.stop();
@@ -116,12 +97,3 @@ public void stop() {
 
 // ================================================================
 
-  static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "build" };
-    if (passedArgs != null) {
-      PApplet.main(concat(appletArgs, passedArgs));
-    } else {
-      PApplet.main(appletArgs);
-    }
-  }
-}

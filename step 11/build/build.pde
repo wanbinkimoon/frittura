@@ -14,15 +14,15 @@ FFT audioFFT;
 
 // ================================================================
 
-int audioRange 	= 128;
+int audioRange 	= 25;
 int audioMax = 100;
 
-float audioAmp = 30.0;
+float audioAmp = 120.0;
 float audioIndex = 0.0;
 float audioIndexAmp = audioIndex;
 float audioIndexStep = 0.25;
 
-int rectS 			= 4;
+int rectS 			= 20;
 
 // ================================================================
 
@@ -64,7 +64,7 @@ void setup() {
 void draw() {
 	// background(bgC);
 
-	// stroke(#0066AA); noFill();
+	// stroke(#0066FF); noFill();
 	// line(0, stageM, width, stageM);
 	// line(stageM, 0, stageM, height);
 	// line(width - stageM, 0, width - stageM, height);
@@ -73,7 +73,7 @@ void draw() {
 
 	for (int i = 0; i < audioRange; ++i) {
 		float indexAvg = (audioFFT.getAvg(i) * audioAmp) * audioIndexAmp;
-		// float indexCon = constrain(indexAvg, 0, audioMax);
+		float indexCon = constrain(indexAvg, 0, audioMax);
 
 		stroke(0); fill(255, 5);
 		rect(xStart + (i * xSpace), yStart, rectS, indexAvg);

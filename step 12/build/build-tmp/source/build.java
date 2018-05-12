@@ -33,15 +33,15 @@ FFT audioFFT;
 
 // ================================================================
 
-int audioRange 	= 25;
+int audioRange 	= 10;
 int audioMax = 100;
 
-float audioAmp = 120.0f;
-float audioIndex = 0.0f;
+float audioAmp = 240.0f;
+float audioIndex = 0.035f;
 float audioIndexAmp = audioIndex;
 float audioIndexStep = 0.25f;
 
-int rectS 			= 20;
+int rectS 			= 50;
 
 // ================================================================
 
