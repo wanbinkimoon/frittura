@@ -77,13 +77,18 @@ public void draw() {
 	// line(0, stageM, width, stageM);
 	// line(stageM, 0, stageM, height);
 	// line(width - stageM, 0, width - stageM, height);
+
+	audioFFT.forward(audio.mix);
+
 	
 	stroke(0xffDD6600); noFill();
 	line(0, stageM + 100, width, stageM + 100);
 
 	for (int i = 0; i < audioRange; ++i) {
+		float indexAvg = audioFFT.getAvg(i);
+
 		stroke(0); fill(255);
-		rect(xStart + (i * xSpace), yStart, rectS, rectS);
+		rect(xStart + (i * xSpace), yStart, rectS, indexAvg);
 	}
 }
 
