@@ -22,17 +22,17 @@ float audioIndex = 0.05;
 float audioIndexAmp = audioIndex;
 float audioIndexStep = 0.025;
 
-int rectS 			= 40;
+float[] audioData = new float[audioRange];
+
+int rectS 			= 20;
 
 // ================================================================
 
 int stageM			= 100;
-int stageW      = (audioRange * rectS) + (stageM * 2);
+int stageW      = 700;
 int stageH      = 700;
 
 // ================================================================
-
-
 
 int xStart 			= stageM;
 int yStart 			= stageM;
@@ -63,39 +63,29 @@ void setup() {
 
 // ================================================================
 void draw() {
-	// background(bgC);
-
-	// stroke(#0066FF); noFill();
-	// line(0, stageM, width, stageM);
-	// line(stageM, 0, stageM, height);
-	// line(width - stageM, 0, width - stageM, height);
+	background(bgC);
 
 	audioFFT.forward(audio.mix);
 
+	audioDataUpdate();
+}
+
+// ================================================================
+
+void audioDataUpdate(){
 	for (int i = 0; i < audioRange; ++i) {
 
 		float indexAvg = (audioFFT.getAvg(i) * audioAmp) * audioIndexAmp;
 		float indexCon = constrain(indexAvg, 0, audioMax);
 
-		stroke(0); 
-		fill(255, 25);
-
-		// if(i == 1) fill(#0044AA);
-		// else if(i == 3) fill(#AA0044);
-		// else fill(#44AA00);
-
-		rect(xStart + (i * xSpace), yStart, rectS, indexAvg);
-
-		// text(str((int)indexCon), xStart + (i * xSpace) + 10, stageM + audioMax + (stageM/2));
-
-
-		audioIndexAmp += audioIndexStep;			
+		audioData[i] = indexCon;
+		audioIndexAmp += audioIndexStep;
+		
 	}
 
-	audioIndexAmp = audioIndex;
+		audioIndexAmp = audioIndex;
 
-	stroke(#DD6600); noFill();
-	line(0, stageM + 100, width, stageM + 100);
+		println(audioData);
 }
 
 // ================================================================

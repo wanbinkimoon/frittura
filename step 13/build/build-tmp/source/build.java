@@ -1,10 +1,29 @@
-color bgC       = #2F2F2F;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class build extends PApplet {
+
+int bgC       = 0xff2F2F2F;
 String dataPATH = "../../data/";
 
 // ================================================================
 
-import ddf.minim.*;
-import ddf.minim.analysis.*;
+
+
 
 // ================================================================
 
@@ -17,10 +36,10 @@ FFT audioFFT;
 int audioRange 	= 8;
 int audioMax = 100;
 
-float audioAmp = 2200.0;
-float audioIndex = 0.05;
+float audioAmp = 2200.0f;
+float audioIndex = 0.05f;
 float audioIndexAmp = audioIndex;
-float audioIndexStep = 0.025;
+float audioIndexStep = 0.025f;
 
 int rectS 			= 40;
 
@@ -40,13 +59,13 @@ int xSpace			= rectS;
 
 // ================================================================
 
-void settings(){ 
+public void settings(){ 
 	size(stageW, stageH);
 }
 
 // ================================================================
 
-void setup() {
+public void setup() {
 	background(bgC);
 
 	minim = new Minim(this);
@@ -62,7 +81,7 @@ void setup() {
 }	
 
 // ================================================================
-void draw() {
+public void draw() {
 	// background(bgC);
 
 	// stroke(#0066FF); noFill();
@@ -94,13 +113,13 @@ void draw() {
 
 	audioIndexAmp = audioIndex;
 
-	stroke(#DD6600); noFill();
+	stroke(0xffDD6600); noFill();
 	line(0, stageM + 100, width, stageM + 100);
 }
 
 // ================================================================
 
-void stop() {
+public void stop() {
 	audio.close();
 	minim.stop();
 	super.stop();
@@ -108,3 +127,12 @@ void stop() {
 
 // ================================================================
 
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "build" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
