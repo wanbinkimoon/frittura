@@ -14,15 +14,15 @@ FFT audioFFT;
 
 // ================================================================
 
-int audioRange 	= 10;
+int audioRange 	= 32;
 int audioMax = 100;
 
-float audioAmp = 240.0;
+float audioAmp = 640.0;
 float audioIndex = 0.035;
 float audioIndexAmp = audioIndex;
-float audioIndexStep = 0.25;
+float audioIndexStep = 0.015;
 
-int rectS 			= 50;
+int rectS 			= 20;
 
 // ================================================================
 
@@ -50,7 +50,7 @@ void setup() {
 	background(bgC);
 
 	minim = new Minim(this);
-	audio = minim.loadFile( dataPATH + "beat_3.wav");
+	audio = minim.loadFile( dataPATH + "Who_the_Cap_Fit.wav");
 	audio.loop();
 	// audio.play();
 
@@ -63,7 +63,7 @@ void setup() {
 
 // ================================================================
 void draw() {
-	background(bgC);
+	// background(bgC);
 
 	// stroke(#0066FF); noFill();
 	// line(0, stageM, width, stageM);
@@ -78,12 +78,13 @@ void draw() {
 		float indexCon = constrain(indexAvg, 0, audioMax);
 
 		stroke(0); 
+		fill(255, 25);
 
-		if(i == 1) fill(#0044AA);
-		else if(i == 3) fill(#AA0044);
-		else fill(#44AA00);
+		// if(i == 1) fill(#0044AA);
+		// else if(i == 3) fill(#AA0044);
+		// else fill(#44AA00);
 
-		rect(xStart + (i * xSpace), yStart, rectS, indexCon);
+		rect(xStart + (i * xSpace), yStart, rectS, indexAvg);
 
 		// text(str((int)indexCon), xStart + (i * xSpace) + 10, stageM + audioMax + (stageM/2));
 
